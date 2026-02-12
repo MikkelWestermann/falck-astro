@@ -1,0 +1,60 @@
+version: "1.0"
+
+metadata:
+  name: "Falck Astro Template"
+  description: "Astro landing page with Falck branding and a guided welcome experience"
+  author: "Falck"
+
+repository:
+  default_branch: "main"
+  protect_default_branch: true
+  branch_prefix: "projects/"
+
+applications:
+  - id: "frontend"
+    name: "Astro App"
+    type: "web"
+    description: "Falck-themed Astro landing page"
+    root: "."
+
+    prerequisites:
+      - type: "runtime"
+        name: "Bun"
+        command: "bun --version"
+        version: "1.0.0"
+        install_url: "https://bun.sh"
+        install:
+          instructions:
+            - "Install Bun 1.x before running setup."
+          options:
+            - name: "Scripted installer"
+              command: "curl -fsSL https://bun.sh/install | bash"
+              only_if: "os != 'windows'"
+
+    setup:
+      steps:
+        - name: "Install Dependencies"
+          command: "bun install"
+          timeout: 300
+          description: "Install Bun packages"
+
+    launch:
+      command: "bun run dev"
+      description: "Start the Astro development server"
+      timeout: 30
+      access:
+        type: "http"
+        url: "http://localhost:4321"
+        port: 4321
+        open_browser: true
+
+install_order:
+  - "frontend"
+
+launch_order:
+  - "frontend"
+
+groups:
+  - name: "Development"
+    apps:
+      - "frontend"
