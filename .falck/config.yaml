@@ -17,26 +17,22 @@ applications:
     description: "Falck-themed Astro landing page"
     root: "."
 
-    prerequisites:
-      - type: "runtime"
-        name: "Bun"
-        command: "bun --version"
-        version: "1.0.0"
-        install_url: "https://bun.sh"
-        install:
-          instructions:
-            - "Install Bun 1.x before running setup."
-          options:
-            - name: "Scripted installer"
-              command: "curl -fsSL https://bun.sh/install | bash"
-              only_if: "os != 'windows'"
-
     setup:
       steps:
+        - name: "Install Bun"
+          command: "curl -fsSL https://bun.sh/install | bash"
+          only_if: "os != 'windows'"
+          description: "Install Bun runtime"
+          check:
+            command: "bun --version"
+            expect_regex: "^v1"
+
         - name: "Install Dependencies"
           command: "bun install"
           timeout: 300
           description: "Install Bun packages"
+          check:
+            command: "test -d node_modules"
 
     launch:
       command: "bun run dev"
