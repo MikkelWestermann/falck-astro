@@ -25,7 +25,7 @@ applications:
           description: "Install Bun runtime"
           check:
             command: "bun --version"
-            expect_regex: "^v1"
+            expect_regex: "^1"
 
         - name: "Install Dependencies"
           command: "bun install"
